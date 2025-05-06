@@ -1,4 +1,6 @@
-# Behaviour Graph Tool for Unity
+
+![2](https://github.com/user-attachments/assets/4bb1724f-6938-4682-bea1-1a59dad6b6d0)
+
 A lightweight and extensible Behavior Tree system built for Unity, leveraging ScriptableObjects, UI Toolkit, and GraphView for a clean, intuitive editor experience.
 
 ## Technical Details
