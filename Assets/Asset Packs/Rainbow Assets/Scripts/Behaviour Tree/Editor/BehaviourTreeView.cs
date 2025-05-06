@@ -7,11 +7,25 @@ using System.Collections.Generic;
 
 namespace RainbowAssets.BehaviourTree.Editor
 {
+    /// <summary>
+    /// The visual representation and interaction handler for behavior trees in the editor.
+    /// </summary>
     public class BehaviourTreeView : GraphView
     {
+        /// <summary>
+        /// UXML factory class for creating BehaviorTreeView instances from UI Builder.
+        /// </summary>
         new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
+
+        /// <summary>
+        /// Reference to the currently displayed Behavior Tree asset.
+        /// </summary>
         BehaviourTree behaviourTree;
 
+        /// <summary>
+        /// Initializes a new instance of the Behavior Tree view.
+        /// Sets up visual styles and interaction manipulators.
+        /// </summary>
         public BehaviourTreeView()
         {
             StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(BehaviourTreeEditor.path + "BehaviourTreeEditor.uss");
@@ -27,6 +41,10 @@ namespace RainbowAssets.BehaviourTree.Editor
             Undo.undoRedoPerformed += OnUndoRedo;
         }
 
+        /// <summary>
+        /// Refreshes the view with a new or updated Behavior Tree.
+        /// </summary>
+        /// <param name="behaviourTree">The Behavior Tree to display.</param>
         public void Refresh(BehaviourTree behaviourTree)
         {
             this.behaviourTree = behaviourTree;
@@ -59,19 +77,23 @@ namespace RainbowAssets.BehaviourTree.Editor
             }
         }
 
+        /// <summary>
+        /// Updates the visual status indicators for all nodes.
+        /// </summary>
         public void DrawStatus()
         {
             foreach (var node in nodes)
             {
-                NodeView nodeView = node as NodeView;
-
-                if (nodeView != null)
+                if (node is NodeView nodeView)
                 {
                     nodeView.DrawStatus();
                 }
             }
         }
 
+        /// <summary>
+        /// Gets all ports that are compatible with the given start port.
+        /// </summary>
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             var compatiblePorts = new List<Port>();
@@ -94,6 +116,9 @@ namespace RainbowAssets.BehaviourTree.Editor
             return compatiblePorts;
         }
 
+        /// <summary>
+        /// Builds the contextual menu for node creation.
+        /// </summary>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             if (!Application.isPlaying)
@@ -121,28 +146,43 @@ namespace RainbowAssets.BehaviourTree.Editor
             }
         }
 
+        /// <summary>
+        /// Gets the NodeView associated with a specific node ID.
+        /// </summary>
         NodeView GetNodeView(string nodeID)
         {
             return GetNodeByGuid(nodeID) as NodeView;
         }
 
+        /// <summary>
+        /// Creates a visual NodeView for a Behavior Tree node.
+        /// </summary>
         void CreateNodeView(Node node)
         {
             NodeView nodeView = new(node);
             AddElement(nodeView);
         }
 
+        /// <summary>
+        /// Creates a new node in the Behavior Tree and its visual representation.
+        /// </summary>
         void CreateNode(Type type, Vector2 position)
         {
             Node newNode = behaviourTree.CreateNode(type, position);
             CreateNodeView(newNode);
         }
 
+        /// <summary>
+        /// Removes a node from both the view and the Behavior Tree.
+        /// </summary>
         void RemoveNode(NodeView nodeView)
         {
             behaviourTree.RemoveNode(nodeView.GetNode());
         }
 
+        /// <summary>
+        /// Creates a visual edge between two nodes.
+        /// </summary>
         void CreateEdge(Node parent, Node child)
         {
             NodeView parentView = GetNodeView(parent.GetUniqueID());
@@ -150,6 +190,9 @@ namespace RainbowAssets.BehaviourTree.Editor
             AddElement(parentView.ConnectTo(childView));
         }
 
+        /// <summary>
+        /// Establishes parent-child relationship in the Behavior Tree when an edge is created.
+        /// </summary>
         void AddChild(Edge edge)
         {
             NodeView parentView = edge.output.node as NodeView;
@@ -158,21 +201,20 @@ namespace RainbowAssets.BehaviourTree.Editor
             Node parentNode = parentView.GetNode();
             Node childNode = childView.GetNode();
 
-            DecoratorNode decoratorNode = parentNode as DecoratorNode;
-
-            if (decoratorNode != null)
+            if (parentNode is DecoratorNode decoratorNode)
             {
                 decoratorNode.SetChild(childNode);
             }
 
-            CompositeNode compositeNode = parentNode as CompositeNode;
-
-            if (compositeNode != null)
+            if (parentNode is CompositeNode compositeNode)
             {
                 compositeNode.AddChild(childNode);
             }
         }
 
+        /// <summary>
+        /// Removes parent-child relationship when an edge is deleted.
+        /// </summary>
         void RemoveChild(Edge edge)
         {
             NodeView parentView = edge.output.node as NodeView;
@@ -181,69 +223,62 @@ namespace RainbowAssets.BehaviourTree.Editor
             Node parentNode = parentView.GetNode();
             Node childNode = childView.GetNode();
 
-            DecoratorNode decoratorNode = parentNode as DecoratorNode;
-
-            if (decoratorNode != null)
+            if (parentNode is DecoratorNode decoratorNode)
             {
                 decoratorNode.UnsetChild();
             }
 
-            CompositeNode compositeNode = parentNode as CompositeNode;
-
-            if (compositeNode != null)
+            if (parentNode is CompositeNode compositeNode)
             {
                 compositeNode.RemoveChild(childNode);
             }
         }
 
+        /// <summary>
+        /// Handles changes to the graph view (edge creation, element removal, etc.)
+        /// </summary>
         GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            var edgesToCreate = graphViewChange.edgesToCreate;
-
-            if (edgesToCreate != null)
+            if (graphViewChange.edgesToCreate != null)
             {
-                foreach (var edge in edgesToCreate)
+                foreach (var edge in graphViewChange.edgesToCreate)
                 {
                     AddChild(edge);
                 }
             }
 
-            var elementsToRemove = graphViewChange.elementsToRemove;
-
-            if (elementsToRemove != null)
+            if (graphViewChange.elementsToRemove != null)
             {
-                foreach(var element in elementsToRemove)
+                foreach(var element in graphViewChange.elementsToRemove)
                 {
-                    NodeView nodeView = element as NodeView;
-
-                    if (nodeView != null)
+                    if (element is NodeView nodeView)
                     {
                         RemoveNode(nodeView);
                     }
-
-                    Edge edge = element as Edge;
-
-                    if(edge != null)
+                    else if (element is Edge edge)
                     {
                         RemoveChild(edge);
                     }
                 }
             }
 
-            var movedElements = graphViewChange.movedElements;
-
-            if (movedElements != null)
+            if (graphViewChange.movedElements != null)
             {
-                foreach(var node in nodes)
+                foreach (var node in nodes)
                 {
-                    NodeView nodeView = node as NodeView;
-                    nodeView.SortChildren();
+                    if (node is NodeView nodeView)
+                    {
+                        nodeView.SortChildren();
+                    }
                 }
             }
 
             return graphViewChange;
         }
 
+        /// <summary>
+        /// Handles undo/redo operations by refreshing the view.
+        /// </summary>
         void OnUndoRedo()
         {
             Refresh(behaviourTree);

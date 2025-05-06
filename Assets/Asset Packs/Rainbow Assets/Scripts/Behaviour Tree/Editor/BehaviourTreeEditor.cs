@@ -4,17 +4,33 @@ using UnityEngine.UIElements;
 
 namespace RainbowAssets.BehaviourTree.Editor
 {
+    /// <summary>
+    /// The main editor window for visualizing and editing behavior trees.
+    /// </summary>
     public class BehaviourTreeEditor : EditorWindow
     {
+        /// <summary>
+        /// Base path for editor resources.
+        /// </summary>
         public const string path = "Assets/Asset Packs/Rainbow Assets/Scripts/Behaviour Tree/Editor/";
+
+        /// <summary>
+        /// The view component that renders and handles the behavior tree graph.
+        /// </summary>
         BehaviourTreeView behaviourTreeView;
 
-        [MenuItem("Rainbow Assets/Behaviour Tree Editor")]
+        /// <summary>
+        /// Opens the Behavior Tree editor window from the Unity menu.
+        /// </summary>
+        [MenuItem("Tools/Behaviour Graph")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(BehaviourTreeEditor), false, "Behaviour Tree Editor");
+            GetWindow(typeof(BehaviourTreeEditor), false, "Behaviour Graph");
         }
 
+        /// <summary>
+        /// Callback for when a Behavior Tree asset is opened in Unity.
+        /// </summary>
         [OnOpenAsset]
         public static bool OnBehaviourTreeOpened(int instanceID, int line)
         {
@@ -29,6 +45,9 @@ namespace RainbowAssets.BehaviourTree.Editor
             return false;
         }
 
+        /// <summary>
+        /// Initializes the editor GUI by loading and setting up the visual elements.
+        /// </summary>
         void CreateGUI()
         {
             VisualElement root = rootVisualElement;
@@ -39,15 +58,17 @@ namespace RainbowAssets.BehaviourTree.Editor
             behaviourTreeView = root.Q<BehaviourTreeView>();
         }
 
+        /// <summary>
+        /// Handles selection changes to automatically display selected behavior trees.
+        /// </summary>
         void OnSelectionChange()
         {
             BehaviourTree behaviourTree = Selection.activeObject as BehaviourTree;
 
+            // Check if a GameObject with BehaviorTreeController is selected
             if (Selection.activeGameObject)
             {
-                BehaviourTreeController controller = Selection.activeGameObject.GetComponent<BehaviourTreeController>();
-
-                if (controller != null)
+                if (Selection.activeGameObject.TryGetComponent<BehaviourTreeController>(out var controller))
                 {
                     behaviourTree = controller.GetBehaviourTree();
                 }
@@ -59,6 +80,8 @@ namespace RainbowAssets.BehaviourTree.Editor
             }
         }
 
+        // LIFECYCLE
+        
         void OnEnable()
         {
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
@@ -69,6 +92,9 @@ namespace RainbowAssets.BehaviourTree.Editor
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
         }
 
+        /// <summary>
+        /// Handles play mode changes to refresh the tree view appropriately.
+        /// </summary>
         void OnPlayModeStateChanged(PlayModeStateChange change)
         {
             if (behaviourTreeView != null)
@@ -85,12 +111,12 @@ namespace RainbowAssets.BehaviourTree.Editor
             }
         }
 
+        /// <summary>
+        /// Regularly updates node status visualization during play mode.
+        /// </summary>
         void OnInspectorUpdate()
         {
-            if (behaviourTreeView != null)
-            {
-                behaviourTreeView.DrawStatus();
-            }
+            behaviourTreeView?.DrawStatus();
         }
     }
 }

@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7958407103293660309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b80b585178d2045b1b5f40e1fad244, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  priority: 0
+  description: Patrol Sequence
+  uniqueID: 90675a1b-dc14-46ea-b2d9-2c715981a2ea
+  position: {x: 574, y: 181}
+  abortCondition:
+    and: []
+  children:
+  - {fileID: 5292590875845085667}
+  - {fileID: -1930869632611478298}
+--- !u!114 &-1930869632611478298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa78cfd3a9a8564f809aa248eff2e14, type: 3}
+  m_Name: CustomAction
+  m_EditorClassIdentifier: 
+  priority: 0
+  description: Wait for Dwell Time
+  uniqueID: c27db907-9930-4fbe-b55e-f6241ca2fbfd
+  position: {x: 677, y: 337.32}
+  onEnterActions: []
+  onTickActions: []
+  onExitActions: []
+  statusConditions:
+  - status: 1
+    condition:
+      and:
+      - or:
+        - predicate: 3
+          parameters: []
+          negate: 0
+--- !u!114 &-390737313866270985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d85566c974f07459aee2e34c869a17, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  priority: 0
+  description: 
+  uniqueID: f0509d3a-4021-4e69-8ad1-e0b74c6df740
+  position: {x: 566.42255, y: 42.164795}
+  abortCondition:
+    and: []
+  child: {fileID: -7958407103293660309}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c77c0598f94b3f4f91cca746a7f996e, type: 3}
+  m_Name: Enemy Behaviour Tree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: -390737313866270985}
+  nodes:
+  - {fileID: -390737313866270985}
+  - {fileID: 5292590875845085667}
+  - {fileID: -1930869632611478298}
+  - {fileID: -7958407103293660309}
+--- !u!114 &5292590875845085667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa78cfd3a9a8564f809aa248eff2e14, type: 3}
+  m_Name: CustomAction
+  m_EditorClassIdentifier: 
+  priority: 0
+  description: Move to Waypoint
+  uniqueID: 941a81ba-6bb4-4e57-b667-3514087a6bf5
+  position: {x: 443, y: 345}
+  onEnterActions:
+  - action: 2
+    parameters: []
+  onTickActions: []
+  onExitActions: []
+  statusConditions:
+  - status: 1
+    condition:
+      and:
+      - or:
+        - predicate: 2
+          parameters: []
+          negate: 0
