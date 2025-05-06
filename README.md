@@ -1,14 +1,24 @@
-# Visual Behaviour Tree for Unity
-## Info:
- - Behaviour Tree tool for unity using Scriptable Objects, UI Toolkit & GraphView.
- - Custom decorators & composites.
- - Custom action creation in separate components.
- - Clean and simple editor window for easy edit and debug.
-## Overview:
- - ![image](https://github.com/ChoiBeomgyuItBoy/VisualBehaviourTree/assets/113314204/90071680-d25e-4779-ba60-fe2aa2451b0c)
- - ![image](https://github.com/ChoiBeomgyuItBoy/VisualBehaviourTree/assets/113314204/25625de8-9aca-41fb-8cf9-47f5f1187904)
- - ![image](https://github.com/ChoiBeomgyuItBoy/VisualBehaviourTree/assets/113314204/d45125b6-2295-4c66-baac-56493663452a)
+# Behaviour Graph Tool for Unity
+A lightweight and extensible Behavior Tree system built for Unity, leveraging ScriptableObjects, UI Toolkit, and GraphView for a clean, intuitive editor experience.
+
+## Technical Details
+ - **Modular Design:** Create behaviors using ScriptableObjects for reusability and easy organization.
+
+ - **Custom Decorators & Composites:** Extend the system with your own logic for branching and control flow.
+
+ - **Action Isolation:** Define custom actions in your own components for clean separation of logic and easy integration.
+
+ - **User-Friendly Editor:** Simple, visually intuitive editor for creating, editing, and debugging trees.
+   
+## Asset Pack Overview:
+**Clean visual editor:**
+![image](https://github.com/user-attachments/assets/8398a037-a0ae-4229-9b19-ddb97afe6df3)
+**Build complex behaviour trees:**
+![image](https://github.com/user-attachments/assets/8252df55-809f-450b-a2c8-66d40e2bb137)
+**Create your dreamed AI for any game genre:**
+![image](https://github.com/user-attachments/assets/e486b1b2-1f1e-4ea9-8715-a5775a130cba)
 
 
-## Asset Pack Download:
- - [Visual Behaviour Tree Asset Pack](https://drive.google.com/file/d/18CmXhqvRNrvXQTF7Oka9kzp_UXMc1BW2/view?usp=sharing)
+
+## Download Asset Pack:
+ - [Latest Release](https://drive.google.com/file/d/18CmXhqvRNrvXQTF7Oka9kzp_UXMc1BW2/view?usp=sharing)
