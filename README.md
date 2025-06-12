@@ -23,4 +23,4 @@ A lightweight and extensible Behavior Tree system built for Unity, leveraging Sc
 
 
 ## Download Asset Pack:
- - [Latest Release](https://drive.google.com/file/d/18CmXhqvRNrvXQTF7Oka9kzp_UXMc1BW2/view?usp=sharing)
+ - [Behaviour Graph Releases](https://github.com/darkrainbowsprinkles/BehaviourGraphTool/releases)
